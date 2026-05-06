@@ -240,39 +240,45 @@
             width: 180px;
             height: 180px;
             margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .avatar-hex {
-            width: 100%;
-            height: 100%;
-            background: var(--glass);
-            clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+        .avatar-frame {
+            position: relative;
+            width: calc(100% - 6px);
+            height: calc(100% - 6px);
+            background: var(--bg-dark);
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 2;
-            position: relative;
             overflow: hidden;
-            border: 2px solid transparent;
         }
 
         .avatar-img {
-            width: 90%;
-            height: 90%;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+            border-radius: 50%;
         }
 
         .avatar-glow {
             position: absolute;
-            top: -10%;
-            left: -10%;
-            width: 120%;
-            height: 120%;
-            background: conic-gradient(from 0deg, var(--cyan), var(--purple), var(--cyan));
-            animation: rotateGlow 4s linear infinite;
+            width: 100%;
+            height: 100%;
+            background: conic-gradient(
+                from 0deg, 
+                var(--cyan) 0%, 
+                rgba(0, 245, 255, 0.5) 10%, 
+                transparent 40%
+            );
+            animation: rotateGlow 1s linear infinite;
             z-index: 1;
-            clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+            border-radius: 50%;
+            filter: blur(1px);
         }
 
         @keyframes rotateGlow {
@@ -505,6 +511,17 @@
             transition: opacity 0.3s ease;
         }
 
+        .chain-logo {
+            width: 2.2rem;
+            height: 2.2rem;
+            object-fit: contain;
+        }
+
+        .network-list .chain-logo {
+            width: 1.2rem;
+            height: 1.2rem;
+        }
+
         .repo-card:hover {
             transform: translateY(-5px);
             border-color: var(--cyan);
@@ -719,7 +736,7 @@
     <div id="cursor-trail"></div>
 
     <header>
-        <div class="logo">IQD.DEV</div>
+        <div class="logo">Danixyz.dev</div>
         <div class="live-clock" id="live-clock">UTC+7 00:00:00</div>
     </header>
 
@@ -729,7 +746,7 @@
             <div class="hero-content">
                 <div class="avatar-wrapper reveal">
                     <div class="avatar-glow"></div>
-                    <div class="avatar-hex">
+                    <div class="avatar-frame">
                         <img src="https://avatars.githubusercontent.com/u/51404769?v=4" alt="Imam Qolandani" class="avatar-img">
                     </div>
                 </div>
@@ -749,11 +766,8 @@
                     <a href="#repos" class="btn btn-primary">
                         <i class="fas fa-code-branch"></i> View My Work
                     </a>
-                    <button class="btn btn-secondary" onclick="openModal()">
-                        <i class="fas fa-wallet"></i> Connect Wallet
-                    </button>
-                    <button class="btn btn-primary" onclick="copyWallet()" id="copyBtn">
-                        <i class="fas fa-copy"></i> Copy Address
+                    <button class="btn btn-secondary" onclick="copyWeb3Name()" id="web3Btn">
+                        <i class="fas fa-id-badge"></i> Danixyz
                     </button>
                 </div>
             </div>
@@ -774,35 +788,72 @@
                 <div class="reveal">
                     <div class="stats-grid">
                         <div class="stat-box glass-card">
-                            <span class="stat-value">37</span>
+                            <span class="stat-value" id="stat-repos">...</span>
                             <span class="stat-label">Repositories</span>
                         </div>
                         <div class="stat-box glass-card">
-                            <span class="stat-value">8</span>
+                            <span class="stat-value" id="stat-followers">...</span>
                             <span class="stat-label">Followers</span>
                         </div>
                         <div class="stat-box glass-card">
-                            <span class="stat-value">7</span>
+                            <span class="stat-value" id="stat-following">...</span>
                             <span class="stat-label">Following</span>
                         </div>
                         <div class="stat-box glass-card">
-                            <span class="stat-value">19</span>
+                            <span class="stat-value" id="stat-stars">...</span>
                             <span class="stat-label">Stars</span>
                         </div>
                     </div>
-                    <div class="contribution-graph glass-card">
-                        <img src="https://ghchart.rshah.org/00f5ff/dani12po" alt="Contribution Graph">
+                    <div class="network-list glass-card" style="margin-top: 1rem; padding: 1.5rem;">
+                        <span class="stat-label" style="display: block; margin-bottom: 1rem;">Primary Nodes</span>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                             <div class="glass-card" style="display: flex; align-items: center; gap: 10px; padding: 10px;">
+                                 <img src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png" class="chain-logo" alt="ETH">
+                                 <span style="font-size: 0.9rem; font-weight: 500;">Ethereum</span>
+                             </div>
+                             <div class="glass-card" style="display: flex; align-items: center; gap: 10px; padding: 10px;">
+                                 <img src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/polygon/info/logo.png" class="chain-logo" alt="Polygon">
+                                 <span style="font-size: 0.9rem; font-weight: 500;">Polygon</span>
+                             </div>
+                             <div class="glass-card" style="display: flex; align-items: center; gap: 10px; padding: 10px;">
+                                 <img src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/smartchain/info/logo.png" class="chain-logo" alt="BNB">
+                                 <span style="font-size: 0.9rem; font-weight: 500;">BNB Chain</span>
+                             </div>
+                             <div class="glass-card" style="display: flex; align-items: center; gap: 10px; padding: 10px;">
+                                 <img src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/solana/info/logo.png" class="chain-logo" alt="Solana">
+                                 <span style="font-size: 0.9rem; font-weight: 500;">Solana</span>
+                             </div>
+                        </div>
                     </div>
                 </div>
-                <div class="reveal" style="transition-delay: 0.2s; min-height: 200px; display: flex; align-items: center; justify-content: center; position: relative; background: rgba(0,0,0,0.2); border-radius: 12px;">
-                    <div id="gh-stats-loading" style="position: absolute; color: var(--cyan); font-size: 2rem; z-index: 5;">
-                        <i class="fas fa-circle-notch fa-spin"></i>
+                <div class="reveal" style="transition-delay: 0.2s; padding: 1.5rem; background: var(--glass); border-radius: 12px; border: 1px solid var(--glass-border);">
+                    <span class="stat-label" style="display: block; margin-bottom: 1.5rem;">Ecosystem Node Grid</span>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                        <div class="glass-card" style="padding: 1.5rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.8rem; border-color: #627eea;">
+                            <img src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png" class="chain-logo" style="width: 2.5rem; height: 2.5rem;" alt="Ethereum">
+                            <span style="font-size: 0.8rem; font-weight: 600; opacity: 0.8;">Ethereum</span>
+                        </div>
+                        <div class="glass-card" style="padding: 1.5rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.8rem; border-color: #f3ba2f;">
+                            <img src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/smartchain/info/logo.png" class="chain-logo" style="width: 2.5rem; height: 2.5rem;" alt="BNB">
+                            <span style="font-size: 0.8rem; font-weight: 600; opacity: 0.8;">BNB Chain</span>
+                        </div>
+                        <div class="glass-card" style="padding: 1.5rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.8rem; border-color: #14f195;">
+                            <img src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/solana/info/logo.png" class="chain-logo" style="width: 2.5rem; height: 2.5rem;" alt="Solana">
+                            <span style="font-size: 0.8rem; font-weight: 600; opacity: 0.8;">Solana</span>
+                        </div>
+                        <div class="glass-card" style="padding: 1.5rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.8rem; border-color: #0052ff;">
+                            <img src="https://avatars.githubusercontent.com/u/108554348?v=4" class="chain-logo" style="width: 2.5rem; height: 2.5rem;" alt="Base">
+                            <span style="font-size: 0.8rem; font-weight: 600; opacity: 0.8;">Base</span>
+                        </div>
+                        <div class="glass-card" style="padding: 1.5rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.8rem; border-color: #8247e5;">
+                            <img src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/polygon/info/logo.png" class="chain-logo" style="width: 2.5rem; height: 2.5rem;" alt="Polygon">
+                            <span style="font-size: 0.8rem; font-weight: 600; opacity: 0.8;">Polygon</span>
+                        </div>
+                        <div class="glass-card" style="padding: 1.5rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.8rem; border-color: #28a0f0;">
+                            <img src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/arbitrum/info/logo.png" class="chain-logo" style="width: 2.5rem; height: 2.5rem;" alt="Arbitrum">
+                            <span style="font-size: 0.8rem; font-weight: 600; opacity: 0.8;">Arbitrum</span>
+                        </div>
                     </div>
-                    <img src="https://github-readme-stats.vercel.app/api?username=dani12po&show_icons=true&theme=radical&hide_border=true" 
-                         alt="GitHub Stats" class="github-stats-image" 
-                         style="opacity: 0;"
-                         onload="this.style.opacity='1'; const L=document.getElementById('gh-stats-loading'); if(L) L.style.display='none';"
-                         onerror="this.onerror=null; this.src='https://github-readme-stats.vercel.app/api?username=dani12po&show_icons=true&theme=dark&hide_border=true';">
                 </div>
             </div>
         </section>
@@ -836,7 +887,7 @@
                     <span>GitHub</span>
                 </a>
                 <a href="https://x.com/Iq_dani26" target="_blank" class="social-card glass-card twitter reveal" style="transition-delay: 0.1s;">
-                    <i class="fab fa-x-twitter social-icon"></i>
+                    <i class="fa-brands fa-x-twitter social-icon"></i>
                     <span>X (Twitter)</span>
                 </a>
                 <a href="https://www.instagram.com/imamqolandanii/" target="_blank" class="social-card glass-card instagram reveal" style="transition-delay: 0.2s;">
@@ -865,22 +916,12 @@
                 <div class="status-dot"></div> System Status: Online
             </div>
             <p class="footer-credits">
-                Built on the decentralized web • 2025 Imam Qolandani<br>
-                <small style="opacity: 0.5;">Deployed on Vercel • Code on GitHub</small>
+                Built on the decentralized web • 2025 Imam Qolandani
             </p>
         </div>
     </footer>
 
     <!-- Wallet Modal -->
-    <div class="modal-overlay" id="wallet-modal">
-        <div class="modal glass-card">
-            <i class="fas fa-ghost" style="font-size: 3rem; color: var(--cyan); margin-bottom: 1.5rem;"></i>
-            <h3>Protocol Bypass</h3>
-            <p style="color: var(--text-dim); margin-top: 1rem;">No wallet needed. Just vibes and code.</p>
-            <button class="btn btn-primary modal-close" onclick="closeModal()">Close Connection</button>
-        </div>
-    </div>
-
     <script>
         // --- CONFIG ---
         const TECH_STACK = [
@@ -1048,7 +1089,37 @@
             stackGrid.appendChild(card);
         });
 
-        // --- GITHUB REPOS ---
+        // --- GITHUB STATS & REPOS ---
+        async function fetchGitHubStats() {
+            try {
+                // Fetch User Profile Data
+                const userRes = await fetch('https://api.github.com/users/dani12po');
+                if (userRes.ok) {
+                    const userData = await userRes.json();
+                    document.getElementById('stat-repos').innerText = userData.public_repos;
+                    document.getElementById('stat-followers').innerText = userData.followers;
+                    document.getElementById('stat-following').innerText = userData.following;
+                    
+                    // Update avatar if needed (optional but keeps it fresh)
+                    const avatars = document.querySelectorAll('.avatar-img');
+                    avatars.forEach(img => {
+                        img.src = userData.avatar_url;
+                    });
+                }
+
+                // Fetch All Repos to calculate total Stars
+                // Note: Limited to 100 per page, usually sufficient
+                const reposRes = await fetch('https://api.github.com/users/dani12po/repos?per_page=100');
+                if (reposRes.ok) {
+                    const reposData = await reposRes.json();
+                    const totalStars = reposData.reduce((acc, repo) => acc + repo.stargazers_count, 0);
+                    document.getElementById('stat-stars').innerText = totalStars;
+                }
+            } catch (err) {
+                console.error("Error fetching stats:", err);
+            }
+        }
+
         async function fetchRepos() {
             const container = document.getElementById('repos-container');
             try {
@@ -1093,6 +1164,9 @@
                 `;
             }
         }
+
+        // Initialize All GitHub Data
+        fetchGitHubStats();
         fetchRepos();
 
         // --- REVEAL ON SCROLL ---
@@ -1110,17 +1184,11 @@
         window.addEventListener("scroll", reveal);
         reveal(); // Initial check
 
-        // --- MODAL & ACTIONS ---
-        function openModal() {
-            document.getElementById('wallet-modal').style.display = 'flex';
-        }
-        function closeModal() {
-            document.getElementById('wallet-modal').style.display = 'none';
-        }
-        function copyWallet() {
-            const dummy = "0x7dani12po...web3";
-            navigator.clipboard.writeText(dummy);
-            const btn = document.getElementById('copyBtn');
+        // --- ACTIONS ---
+        function copyWeb3Name() {
+            const name = "Danixyz";
+            navigator.clipboard.writeText(name);
+            const btn = document.getElementById('web3Btn');
             const originalText = btn.innerHTML;
             btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
             btn.style.borderColor = '#00ff00';
