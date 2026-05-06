@@ -17,7 +17,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
     <style>
         :root {
@@ -452,8 +452,16 @@
 
         .github-stats-image {
             width: 100%;
-            border-radius: 8px;
+            height: auto;
+            border-radius: 12px;
             overflow: hidden;
+            display: block;
+            border: 1px solid var(--glass-border);
+            min-height: 180px;
+            object-fit: contain;
+            background: rgba(0,0,0,0.1);
+            padding: 5px;
+            transition: opacity 0.6s ease;
         }
 
         .contribution-graph {
@@ -786,8 +794,15 @@
                         <img src="https://ghchart.rshah.org/00f5ff/dani12po" alt="Contribution Graph">
                     </div>
                 </div>
-                <div class="reveal" style="transition-delay: 0.2s;">
-                    <img src="https://github-readme-stats.vercel.app/api?username=dani12po&show_icons=true&theme=tokyonight&hide_border=true" alt="GitHub Stats" class="github-stats-image">
+                <div class="reveal" style="transition-delay: 0.2s; min-height: 200px; display: flex; align-items: center; justify-content: center; position: relative; background: rgba(0,0,0,0.2); border-radius: 12px;">
+                    <div id="gh-stats-loading" style="position: absolute; color: var(--cyan); font-size: 2rem; z-index: 5;">
+                        <i class="fas fa-circle-notch fa-spin"></i>
+                    </div>
+                    <img src="https://github-readme-stats.vercel.app/api?username=dani12po&show_icons=true&theme=radical&hide_border=true" 
+                         alt="GitHub Stats" class="github-stats-image" 
+                         style="opacity: 0;"
+                         onload="this.style.opacity='1'; const L=document.getElementById('gh-stats-loading'); if(L) L.style.display='none';"
+                         onerror="this.onerror=null; this.src='https://github-readme-stats.vercel.app/api?username=dani12po&show_icons=true&theme=dark&hide_border=true';">
                 </div>
             </div>
         </section>
@@ -822,7 +837,7 @@
                 </a>
                 <a href="https://x.com/Iq_dani26" target="_blank" class="social-card glass-card twitter reveal" style="transition-delay: 0.1s;">
                     <i class="fab fa-x-twitter social-icon"></i>
-                    <span>Twitter</span>
+                    <span>X (Twitter)</span>
                 </a>
                 <a href="https://www.instagram.com/imamqolandanii/" target="_blank" class="social-card glass-card instagram reveal" style="transition-delay: 0.2s;">
                     <i class="fab fa-instagram social-icon"></i>
